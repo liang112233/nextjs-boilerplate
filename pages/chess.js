@@ -56,6 +56,14 @@ function makeGame(div) {
 
     // reset the selection state to unselected
     selected = null;
+    
+    const [movedFrom, movedTo] = Object.entries(game.aiMove())[0];
+
+    document.getElementById(movedFrom).innerText = "";
+
+    document.getElementById(movedTo).innerText = GLYPHS[gameState.pieces[movedTo]];
+    gameState = game.exportJson();
+
   } else if (selected) {
     // they tried to move a piece to a random spot on the board
     return;
@@ -63,6 +71,10 @@ function makeGame(div) {
     // clicked on a piece that can move,
     // set the selection to that piece
     selected = square;
+    gameState?.moves[square]?.forEach(option => {
+      const el = document.getElementById(option);
+      el.classList.add(styles.isMoveOption);
+    })
   }
 }
 
